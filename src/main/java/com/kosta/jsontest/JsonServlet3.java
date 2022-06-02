@@ -1,4 +1,4 @@
-package om.kosta.jsontest;
+package com.kosta.jsontest;
 
 import java.io.IOException;
 import java.io.PrintWriter;
