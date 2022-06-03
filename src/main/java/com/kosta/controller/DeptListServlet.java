@@ -14,7 +14,7 @@ import com.kosta.model.DeptService;
 /**
  * Servlet implementation class DeptListServlet
  */
-@WebServlet("/dept/deptlist.do")
+//@WebServlet("/dept/deptlist.do")
 public class DeptListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

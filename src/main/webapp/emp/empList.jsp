@@ -9,22 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>  
-<style>
- table, td { border:1px solid black; padding: 10px; border-collapse: collapse;}
- tr:first-child { background-color: lightgreen;}
-</style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="../css/common.css">  
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<style>
-.color1 { background-color: pink;}
-.color2 { background-color: beige;}
-
-</style>
 
 <script>
 $(function(){
@@ -55,15 +40,15 @@ $(function(){
 </head>
 <body>
 <h1 >직원목록</h1>
-
-
+<c:set var="path" value="${pageContext.request.contextPath }"/>
+ 
 <hr>
 <%-- <h2>EL(Expression Language)문법</h2>
 <p>application영역의 접근 :${appVar}</p>
 <p>session영역의 접근 :${sessionVar}</p>
 <p>request영역의 접근 :${requestVar}</p> --%>
 
- <div><span><a class="left" href="empInsert.do">신규등록</a> </span></div>
+ <div><span><a class="left" href="${path}/emp/empInsert.do">신규등록</a> </span></div>
  
  <c:set  var="now" value="<%=new Date() %>" />
  <fmt:formatDate  value="${now }"  type="both" dateStyle="full" timeStyle="full"/><br>
@@ -100,7 +85,7 @@ $(function(){
    <td>${status.count}</td>
    <td><input type="button" value="상세보기" class="empDetailView btn btn-primary"  
    data-toggle="modal" data-target="#myModal" data-empid="${emp.employee_id}"></td>
-   <td><a href="empDetail.do?empid=${emp.employee_id}">${emp.employee_id}</a></td>
+   <td><a href="${path}/emp/empDetail.do?empid=${emp.employee_id}">${emp.employee_id}</a></td>
    <td>${emp.last_name}</td>
    <td>${emp.first_name }...${fn:contains(emp.first_name,"Al") }</td>
    <td>${emp.hire_date }</td>

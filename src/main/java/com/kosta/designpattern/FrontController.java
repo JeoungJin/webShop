@@ -43,6 +43,16 @@ public class FrontController extends HttpServlet {
 			command = new BoardInsertController();
 		} else if (uri.equals("/board/boardlist.do")) {
 			command = new BoardListController();
+		} else if (uri.equals("/dept/deptlist.do")) {
+			command = new DeptListController();
+		} else if (uri.equals("/dept/deptInsert.do")) {
+			command = new DeptInsertController();
+		} else if (uri.equals("/html/dept.do")) {
+			command = new DeptDetailController();
+		}else if (uri.equals("/html/deptDelete.do")) {
+			command = new DeptDeleteController();
+		}else {
+			
 		}
 
 		page = command.execute(request);

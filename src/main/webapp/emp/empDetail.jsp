@@ -19,7 +19,7 @@
 <body>
 <h1>직원의 상세내역</h1>
  
-<form action="empDetail.do" method="post">
+<form action="${path}/emp/empDetail.do" method="post">
 
 <div class="form-group">
    <label>직원번호: ${emp.employee_id }</label>

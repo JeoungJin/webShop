@@ -33,9 +33,10 @@ public class SessionFilter implements Filter {
 			if(user == null) {			
 				System.out.println("로그인하지않음.....직원정보 볼수없음");
 				//절대경로가 바람직하다. 
+				
 				session.setAttribute("reqPath", req.getContextPath() +path);
 				resp.sendRedirect(req.getContextPath() + "/html/login.do"); //주소창바꾸기(새로운요청을 의미)
-				return;
+				
 			} 
 			
 		} else {

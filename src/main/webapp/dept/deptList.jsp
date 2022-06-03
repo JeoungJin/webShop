@@ -6,34 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="../css/common.css"> 
-<style>
- table, td { 
- border:1px solid black;
- border-collapse: collapse;
- padding: 10px;
- }
- .color1 { background-color: lightgray;}
- .color2 { background-color: white;}
  
- tr:nth-child(odd) {
-     background-color: lightgray;
- }
- tr:nth-child(even) {
-     background-color: white;
- }
-  tr:first-child {
-     background-color: orange;
- }
-</style>
 </head>
 <body>
 <h1>부서목록</h1>
-<a href="deptInsert.do">신규 부서 등록</a>
+<c:set var="path" value="${pageContext.request.contextPath }" />
+<a href="${path}/dept/deptInsert.do">신규 부서 등록</a>
 
  
 
@@ -50,8 +28,8 @@
 <c:forEach items="${deptlist}" var="dept" varStatus="rowStatus">
 <tr>
   <td>${rowStatus.count%2==0?'짝수':"홀수"}</td>
-  <td><a href="../html/dept.do?dept_id=${dept.department_id}">${dept.department_id}</a></td>
-  <td><a href="../html/dept.do?dept_id=${dept.department_id}">${dept.department_name}</a></td>
+  <td><a href="${path}/html/dept.do?dept_id=${dept.department_id}">${dept.department_id}</a></td>
+  <td><a href="${path}/html/dept.do?dept_id=${dept.department_id}">${dept.department_name}</a></td>
   <td>${dept.manager_id}</td>
   <td>${dept.location_id}</td>
   <td><button class="btnDel" data-deptid="${dept.department_id}">삭제하기</button></td>
@@ -66,7 +44,7 @@ $(function(){
 });
 function f(){
 	var deptid = $(this).attr("data-deptid");
-	location.href = "deptDelete.do?deptid=" + deptid;
+	location.href = "${path}/dept/deptDelete.do?deptid=" + deptid;
 }
 </script>
 </body>

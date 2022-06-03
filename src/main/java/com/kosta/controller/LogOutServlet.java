@@ -19,7 +19,6 @@ public class LogOutServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.invalidate(); //세션제거 
 	
-        response.sendRedirect("html/login.do");
 	}
 
 	 

@@ -12,7 +12,7 @@ public class BoardDTO {
 	private String pic;	
 	private EmpVO emp;
 	
-	
+	 
 	
 	
 	public String getPic() {

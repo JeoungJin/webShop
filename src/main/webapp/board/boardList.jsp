@@ -6,20 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="../css/common.css"> 
-<style>
- table, td { 
- border:1px solid black;
- border-collapse: collapse;
- padding: 10px;
- }
- .color1 { background-color: lightgray;}
- .color2 { background-color: white;}
-</style>
+ 
 </head>
 <body>
 
@@ -30,8 +17,9 @@
   
 </h3>
 
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 
-<a href="boardInsert.do">게시글 작성하기</a>
+<a href="${path}/board/boardInsert.do">게시글 작성하기</a>
 <br><br>
 <table>
  <tr>
@@ -52,7 +40,7 @@
  <c:forEach items="${boardDatas}" var="board" varStatus="rowStatus">
   <tr class="${rowStatus.count%2==0?'color1':'color2'}">
    <td>${rowStatus.count}....${listSize-rowStatus.index} </td>
-   <td><a href="boardDetail.do?boardid=${board.bno}">${board.bno}</a></td>
+   <td><a href="${path}/board/boardDetail.do?boardid=${board.bno}">${board.bno}</a></td>
    <td>${board.title }</td>
    <td>${board.content }</td>
    <td>${board.writer }</td>
@@ -70,7 +58,7 @@ $(function(){
 	$(".btnDel").click(function(){ 
 		var bno = $(this).attr("data-bno");
 		if(confirm(bno + "삭제?")){
-			location.href = "boardDelete.do?bno=" + bno;
+			location.href = "${path}/board/boardDelete.do?bno=" + bno;
 		}
 	});
 });

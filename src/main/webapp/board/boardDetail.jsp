@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,9 +10,10 @@
 <body>
 <h1>Board의 상세내역</h1>
 
- 
+<c:set var="path" value="${pageContext.request.contextPath }"/>
+  
 
-<form action="boardUpdate.do" method="post">
+<form action="${path}/board/boardUpdate.do" method="post">
  bno:${board.bno } <input type="hidden" name="bno" value="${board.bno }"><br>
  title:<input type="text" name="title"  value="${board.title }"><br>
  content:<input type="text" name="content"  value="${board.content }"><br>
