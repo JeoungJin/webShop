@@ -1,6 +1,8 @@
 package com.kosta.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +20,10 @@ public class LogOutServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.invalidate(); //세션제거 
-	
+    
+        //response.sendRedirect(request.getContextPath() + "/index.jsp");
+        PrintWriter out = response.getWriter();
+        out.print("aa");
 	}
 
 	 

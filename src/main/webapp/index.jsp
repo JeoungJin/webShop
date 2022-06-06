@@ -66,7 +66,16 @@ tr:nth-child(odd) {
   </div>  
   
    <div>
-        <jsp:include page="common/header.jsp"/>
+        <c:if test="${user != null }">
+	       
+	      <span class="text-white">${user.user_name}님 환영</span>
+	      <a href="javascript:f_logOut();">로그아웃</a>
+	      
+	  </c:if>
+	  <c:if test="${user == null }">
+	      <span class="text-white">Guest님 환영</span> 
+	      <a href="javascript:f_logIn();">로그인</a>
+	  </c:if>   
      
    </div>
    
@@ -126,7 +135,7 @@ tr:nth-child(odd) {
 				success : function(responseData){
 					alert(responseData);
 					$(".container").html(responseData);
-					
+					location.reload();
 				}
 			});
 		} 

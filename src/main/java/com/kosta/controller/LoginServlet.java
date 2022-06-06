@@ -51,10 +51,10 @@ public class LoginServlet extends HttpServlet {
 			rd.forward(request, response);
 		} else {
 //			// --------------------------------------
-//			if (path == null || path.equals("/webShop/css/common.css"))
-//				path = request.getContextPath() + "/index.jsp";
-//
-//			response.sendRedirect(path);
+			if (path == null || path.equals("/webShop/css/common.css"))
+				path = request.getContextPath() + "/index.jsp";
+
+ 			response.sendRedirect(path);
 		}
 
 		/*

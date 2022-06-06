@@ -55,6 +55,7 @@
 $(function(){
 	//# : 아이디를 의미, 아이디는 문서내에서 융ㄹ하다. 
 	//.:class를 의미
+
 	$(".btnDel").click(function(){ 
 		var bno = $(this).attr("data-bno");
 		if(confirm(bno + "삭제?")){

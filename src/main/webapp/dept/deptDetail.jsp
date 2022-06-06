@@ -6,9 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="../css/common.css">
 <style>
-h1 { background-color: orange;}
+  label { display: inline-block; width:100px;}
+ 
 </style>
+ 
 </head>
 <body>
 <h1>부서 상세보기</h1>
@@ -22,17 +29,6 @@ h1 { background-color: orange;}
  <input type="submit" value="수정">
  <input type="reset" value="취소">
 </form>
-
-<hr>
-
-<h1>파라메터로 받은 부서번호: ${param.dept_id}</h1>
-<p>부서이름: ${deptname}</p>
-<p>메니져:${mid }</p>
-<p>Location ID:${loc }</p>
-<p>${dept }</p>
-<p>${dept.department_id }</p>
-<p>${dept.department_name }</p>
-<p>${dept.manager_id }</p>
-<p>${dept.location_id }</p>
+ 
 </body>
 </html>

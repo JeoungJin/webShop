@@ -28,8 +28,8 @@
 <c:forEach items="${deptlist}" var="dept" varStatus="rowStatus">
 <tr>
   <td>${rowStatus.count%2==0?'짝수':"홀수"}</td>
-  <td><a href="${path}/html/dept.do?dept_id=${dept.department_id}">${dept.department_id}</a></td>
-  <td><a href="${path}/html/dept.do?dept_id=${dept.department_id}">${dept.department_name}</a></td>
+  <td><a href="${path}/dept/dept.do?dept_id=${dept.department_id}">${dept.department_id}</a></td>
+  <td><a href="${path}/dept/dept.do?dept_id=${dept.department_id}">${dept.department_name}</a></td>
   <td>${dept.manager_id}</td>
   <td>${dept.location_id}</td>
   <td><button class="btnDel" data-deptid="${dept.department_id}">삭제하기</button></td>
