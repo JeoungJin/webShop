@@ -29,6 +29,7 @@ public class UploadFileHelper {
 				System.out.println("------------------------------");
 				if (part.getName().equalsIgnoreCase("photos")) {
 					String fileName = getFileName(part);
+					if(fileName.equals("")) continue;
 					fileNames.add(fileName);
 					String applicationPath = multi.getServletContext().getRealPath("");
 					//File.separator´Â /, \\
@@ -37,7 +38,9 @@ public class UploadFileHelper {
 					OutputStream outputStream = null;
 					try {
 						File outputFilePath = new File(basePath + fileName);
+						 
 						inputStream = part.getInputStream();
+						
 						outputStream = new FileOutputStream(outputFilePath);
 						int read = 0;
 						final byte[] bytes = new byte[1024];
