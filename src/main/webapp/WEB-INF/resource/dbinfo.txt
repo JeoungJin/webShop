@@ -1,0 +1,2 @@
+userid=hr
+userpass=1234

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script
+	src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+	<div id="root"></div>
+	<script type="text/babel">
+    const name="구름";
+    const imgUrl = "http://placedog.net/400/200";
+
+    class Comp2 extends React.Component {
+	constructor (props) {
+    	super(props);  
+		console.log("생성자 코드...constructor");
+		this.state = {time : new Date(), count:0, content:"" , 
+				checked:false };
+		this.countUp = this.countUp.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+		this.handleClick = this.handleClick.bind(this);
+  	};
+  	 
+  	componentDidMount () {
+       console.log("컴포넌트가 화면에 출력될 때 호출...componentDidMount");
+	   this.timeId = setInterval(()=>{
+			this.setState({time:new Date()});
+		},1000);
+  	}
+  	componentWillUnmount () {
+      console.log("컴포넌트가 화면에서 제거될 때 호출...componentWillUnmount");
+      clearInterval(this.timeId);
+  	}
+
+     render () {
+       const style = {color:"red", backgroundColor:this.state.checked?"pink":"skyblue"};
+
+	   console.log("컴포넌트가 화면에 출력....render");
+       return <div>
+			<h1 style={style}>class 컴포넌트: {this.state.count} </h1>
+			<img src={this.props.imgUrl}/> 
+            <p>{this.state.time.toLocaleTimeString()}</p>
+            <button onClick={this.countUp}>클릭1</button>
+			<button onClick={(e)=>{this.countUp(e)}}>클릭2</button>
+			<button onClick={(e)=>{this.countUp2(e)}}>클릭3(this bind없이)</button>
+			<input value={this.state.content} onChange={this.handleChange} />
+            <p>입력된 문자열: {this.state.content} {this.state.checked}</p>
+            <input  type="checkbox" onClick={this.handleClick} />변경 
+
+		</div>
+     }
+     countUp(event){
+		this.setState({count : this.state.count+1});
+
+	 }
+	 
+
+       //this bind없는 경우 
+	   countUp2(event){
+		this.setState({count : this.state.count+1});
+	   }
+	   handleChange(event){
+		this.setState({content: event.target.value});
+	   }
+	   handleClick(event){
+		this.setState({checked : event.target.checked});
+		console.log(event.target.checked);
+	   }
+     } 
+
+
+	class Comp3 extends React.Component {
+		constructor(props){
+            super(props);
+			this.state = {fruits:["사과","배","오렌지"]};
+		}
+		 
+        render(){
+			const fruitList = this.state.fruits.map((item,index)=><li key={index}>{item}</li>);
+			return <ul>{fruitList}</ul> ;
+ 		};
+	}
+    //여러번 사용할 item컴포넌트 만들기 (p38)
+	class FruitComp extends React.Component {
+		constructor(props){
+            super(props);
+			this.state = {fruits:["사과","배","오렌지"]};
+		}
+		 
+        render(){
+			const fruitList = this.state.fruits.map(
+                (item,index)=><FruitItem value={item} key={index} />);
+			return <ul>{fruitList}</ul> ;
+ 		};
+	}
+
+	//여러번 사용할 item컴포넌트 만들기 (p38)
+	class FruitItem extends React.Component {
+		constructor(props){
+            super(props);
+		}	 
+        render(){ 
+			return <li>{this.props.value}</li> ;
+ 		};
+	}
+    //부모에서 자식의 state 속성 변경하기(p39)
+
+     const comp1 = <div>
+		<h1>리엑트연습</h1>
+        <h2>{name}님</h2>
+        <img src={imgUrl}/> 
+        <Comp2 imgUrl="http://placedog.net/400/200"/>
+		<Comp3 />
+        <hr/>
+		<FruitComp/>
+ 	  </div>
+   const container = document.getElementById("root");
+   ReactDOM.render(comp1, container);
+ </script>
+</body>
+</html>
