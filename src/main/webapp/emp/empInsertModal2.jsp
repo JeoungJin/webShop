@@ -28,6 +28,8 @@ request.setAttribute("jobList", comService.jobSelectAll());
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
+				  
+				    
 					<form method="post" id="myfrm" action="${path}/emp/empinsert.do"
 						class="mb-3">
 						<table>
@@ -40,7 +42,7 @@ request.setAttribute("jobList", comService.jobSelectAll());
 							</tr>
 							<tr>
 								<td>firstName</td>
-								<td><input type="text" name="first_name" maxlength="20"></td>
+								<td><input type="text" name="first_name" maxlength="20" id="my"></td>
 							</tr>
 							<tr>
 								<td>LastName</td>
@@ -58,6 +60,7 @@ request.setAttribute("jobList", comService.jobSelectAll());
 							<tr>
 								<td>salary</td>
 								<td><input type="number" name="salary"></td>
+								 
 							</tr>
 							<tr>
 								<td>부서</td>
@@ -100,7 +103,7 @@ request.setAttribute("jobList", comService.jobSelectAll());
 				<div class="modal-footer">
 					<!-- Modal창의 form submit버튼 밖으로 옮김 -->
 					<button type="button" onclick="call()" class="btn btn-secondary">직원등록</button>
-
+					<button type="button" class="btn btn-secondary" id="btnclose" onclick="call2()">모달닫기(코드)</button>
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
 
@@ -111,6 +114,12 @@ request.setAttribute("jobList", comService.jobSelectAll());
 	<script>
 		function call() {
 			$("#myfrm").submit();
+		}
+		function call2(){
+			$("#exampleModal").modal("hide");
+		}
+		function call3(){
+			$("#exampleModal").modal("show");
 		}
 	</script>
 </body>

@@ -14,6 +14,12 @@ $(function(){
 	var aa = "${10+20}";
 	var bb = "${pageContext.request.contextPath}";
 	
+	var loginUser = "${loginUser}";
+	if(loginUser=="로그인실패"){
+		alert(loginUser);
+	}
+	
+	
 	$("#emailDupCheck").on("click", function(){
 		//page이동없이 서버에 요청보내고 응답받기 : ajax
 		$.ajax({

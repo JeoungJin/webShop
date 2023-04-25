@@ -88,26 +88,175 @@
 	class FruitComp extends React.Component {
 		constructor(props){
             super(props);
-			this.state = {fruits:["사과","배","오렌지"]};
+			this.state = {fruits:["사과","배","오렌지"], myselect:""};
+            this.changeParent = this.changeParent.bind(this);
 		}
 		 
         render(){
 			const fruitList = this.state.fruits.map(
-                (item,index)=><FruitItem value={item} key={index} />);
-			return <ul>{fruitList}</ul> ;
+                (item,index)=><FruitItem value={item} key={index} changeParent={this.changeParent} />);
+			return <div><p>{this.state.myselect}</p><ul>{fruitList}</ul></div> ;
  		};
+		//자식이 부모에 값전달...값받아서 상태변경 
+		changeParent(event){
+           //console.log(event.target.getAttribute("data"));
+		   this.setState({myselect:event.target.getAttribute("data")});
+		}
+		
 	}
 
 	//여러번 사용할 item컴포넌트 만들기 (p38)
+    //부모에서 자식의 state 속성 변경하기(p39)...componentDidUpdate
+    //자식에서 부모의 state 속성 변경하기(p42) 
 	class FruitItem extends React.Component {
 		constructor(props){
             super(props);
+			this.state = {value : this.props.value};
+ 			console.log(this.props.changeParent);
 		}	 
         render(){ 
-			return <li>{this.props.value}</li> ;
+			return <li onClick={this.props.changeParent} data={this.props.value} >{this.props.value}....{this.state.value} </li> ;
  		};
+ 		componentDidUpdate(prevProps){
+			if(prevProps.value != this.props.value){
+                this.setState({value : this.props.value});
+			}
+		}
+		
 	}
-    //부모에서 자식의 state 속성 변경하기(p39)
+    
+     class TodoComp extends React.Component{
+		constructor(props){
+			super(props);
+			this.state = this.load();
+ 			this.textChange = this.textChange.bind(this)
+ 			this.textKeyDown = this.textKeyDown.bind(this)
+ 			this.buttonClick = this.buttonClick.bind(this)
+ 			this.removeItem = this.removeItem.bind(this)
+ 			this.changeCheckData = this.changeCheckData.bind(this)
+
+
+		}
+		componentDidUpdate(){ this.save()}
+        render(){
+		  return <div>
+         			<h1>@@@할 일 목록@@@</h1>
+         			<input
+           				 value={this.state.currentValue}
+          				 onChange={this.textChange}
+           				 onKeyDown={this.textKeyDown} />
+       				<button onClick={this.buttonClick}>추가하기</button>
+       				<div>
+        				 {this.state.todos.map((todo, index) => {
+           				return <TodoItem key={index}
+             			dataKey={todo.key}
+             			isDone={todo.isDone}
+             			text={todo.text}
+             			removeItem={this.removeItem}
+             			changeCheckData={this.changeCheckData} />
+           				})}
+         			</div>
+				</div>
+
+		}
+		save(){
+			localStorage.state = JSON.stringify(this.state);
+		}
+		load(){
+			let output;
+			try {
+				output = JSON.parse(localStorage.state);
+				
+			}catch(e){}
+			//속성이 제대로 존재하는지 확인
+			if(output != undefined 
+					&& output.keyCount !=undefined 
+					&& output.currentValue !=undefined){
+					output = JSON.parse(localStorage.state);
+			} else{
+					output = {keyCount:0, currentValue:"", todos:[]};
+			}
+			return output;
+		}
+ 		textChange(event){
+			this.setState({currentValue:event.target.value});
+		}
+		textKeyDown(event){
+			const ENTER = 13;
+			if (event.keyCode === ENTER) {
+				this.buttonClick();
+			}
+		}
+		removeItem(key){
+			this.setState({
+        		 todos: this.state.todos.filter((todo) => {
+           				return todo.key !== key
+         			}) 
+      		 	});
+
+		}
+        buttonClick (event) {
+         if (this.state.currentValue.trim() !== '') {
+           this.setState({
+           todos: [...this.state.todos, {
+             key: this.state.keyCount.toString(),
+             isDone: false,
+             text: this.state.currentValue
+           }]
+         })
+         this.state.keyCount += 1;
+         this.state.currentValue = '';
+       }
+     }
+
+
+		changeCheckData(key, changed){
+			let target = [...this.state.todos];
+			target.filter((todo)=>todo.key === key)[0].isDone = changed;
+			this.setState({todos:target});
+		}
+	 }
+
+    class TodoItem extends React.Component {
+     constructor (props) {
+       super(props)
+       this.state = {
+         isDone: props.isDone
+       }
+       this.checkboxClick = this.checkboxClick.bind(this)
+     }
+     checkboxClick () {
+       const changed = !this.state.isDone
+       this.props.changeCheckData(this.props.dataKey, changed)
+     }
+
+     componentDidUpdate (prevProps) {
+       if (prevProps.isDone !== this.props.isDone) {
+         this.setState({
+           isDone: this.props.isDone
+         })
+       }
+     }
+
+     render () {
+       const textStyle = {}
+       textStyle.textDecoration = this.state.isDone ? 'line-through' : ''
+       return (
+         <div style={textStyle}>
+            <input
+              type="checkbox"
+              checked={this.state.isDone}
+              onChange={this.checkboxClick}/>
+
+           <span>{this.props.text}</span>
+           <button onClick={()=>this.props.removeItem(this.props.dataKey)}>제거
+           </button>
+         </div>
+       )
+     }
+
+	}
+
 
      const comp1 = <div>
 		<h1>리엑트연습</h1>
@@ -117,6 +266,7 @@
 		<Comp3 />
         <hr/>
 		<FruitComp/>
+		<TodoComp/>
  	  </div>
    const container = document.getElementById("root");
    ReactDOM.render(comp1, container);

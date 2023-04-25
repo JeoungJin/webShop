@@ -28,6 +28,10 @@ public class FontController extends HttpServlet {
 			HttpServletResponse response)
 			throws ServletException, IOException {
 		String path = request.getServletPath();
+		
+		//path = request.getRequestURI().substring(request.getContextPath().length());
+		
+		
 		CommonControllerInterface controller = null;
 
 		List<String> a = new LinkedList<>();

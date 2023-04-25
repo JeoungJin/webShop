@@ -20,13 +20,12 @@ public class EmpDAO {
 	Connection conn;
 	Statement st;
 	PreparedStatement pst;// ?지원
-	CallableStatement cst;//SP지원 
+	CallableStatement cst;// SP지원
 	ResultSet rs;
 	int resultCount;// insert, update, delete건수
 
-	
-	//여러문장 한번에 수행
-	//구매:insert 재고:update
+	// 여러문장 한번에 수행
+	// 구매:insert 재고:update
 	public int insertUpdate() {
 		String sqlInsert = """
 				insert into employees
@@ -39,22 +38,22 @@ public class EmpDAO {
 				    hire_date=?, MANAGER_ID=?
 				where EMPLOYEE_ID = ?
 					""";
-		//기본설정이 autocommit;
-		//모두 성공하면 commit해야한다.
+		// 기본설정이 autocommit;
+		// 모두 성공하면 commit해야한다.
 		conn = OracleUtil.getConnection();
 		try {
 			conn.setAutoCommit(false);
 			pst = conn.prepareStatement(sqlInsert);
 			pst.setString(1, "aaa");
 			int a = pst.executeUpdate();
-			
+
 			PreparedStatement pst2 = conn.prepareStatement(sqlUpdate);
 			pst2.setString(1, "wed0406@daum.net");
 			int b = pst2.executeUpdate();
 			conn.commit();
-			
-			resultCount = a+b;
-			
+
+			resultCount = a + b;
+
 		} catch (SQLException e) {
 			try {
 				conn.rollback();
@@ -66,11 +65,8 @@ public class EmpDAO {
 		}
 		return resultCount;
 	}
-	
-	
-	
 
-	//같은문장 한꺼번에 수행.....addBatch, executeBatch
+	// 같은문장 한꺼번에 수행.....addBatch, executeBatch
 	public int[] insertAll(List<EmpVO> emplist) {
 		int[] arr = new int[emplist.size()];
 		String sql = """
@@ -81,7 +77,7 @@ public class EmpDAO {
 			conn = OracleUtil.getConnection();
 			conn.setAutoCommit(false);
 			pst = conn.prepareStatement(sql);
-			for(EmpVO emp:emplist) {
+			for (EmpVO emp : emplist) {
 				pst.setString(1, emp.getFirst_name());
 				pst.setString(2, emp.getLast_name());
 				pst.setString(3, emp.getEmail());
@@ -92,85 +88,77 @@ public class EmpDAO {
 				pst.setDouble(8, emp.getCommission_pct());
 				pst.setInt(9, emp.getManager_id());
 				pst.setInt(10, emp.getDepartment_id());
-				
+
 				pst.addBatch();
 			}
 			arr = pst.executeBatch();
 			/*
-			 * 0~n: 성공한 row count 수
-				-2: 성공은 하였으나 row count 수를 알 수 없음
-				-3: 실패
+			 * 0~n: 성공한 row count 수 -2: 성공은 하였으나 row count 수를 알 수 없음 -3: 실패
 			 */
 			conn.commit();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return arr;
-		
-		
+
 	}
-	
-	
-	
-	
-	//SP 호출 
+
+	// SP 호출
 	public EmpVO getSalary(int empid) {
 		System.out.println("[DAO] getSalary");
 		String sql = "{call sp_salary(?,?,?)}";
 		conn = OracleUtil.getConnection();
-		EmpVO emp = new EmpVO();		
+		EmpVO emp = new EmpVO();
 		try {
 			cst = conn.prepareCall(sql);
 			cst.setInt(1, empid);
 			cst.registerOutParameter(2, Types.DOUBLE);
 			cst.registerOutParameter(3, Types.VARCHAR);
-			cst.execute();  //resultset있으면 true이고 없으면 false
-			//executeQuery(), executeUpdate()
-			emp.setSalary( cst.getDouble(2));	
-			emp.setFirst_name( cst.getString(3));
-			
+			cst.execute(); // resultset있으면 true이고 없으면 false
+			// executeQuery(), executeUpdate()
+			emp.setSalary(cst.getDouble(2));
+			emp.setFirst_name(cst.getString(3));
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return emp;
 	}
-	
-	
+
 	public List<EmpVO> selectAll() {
 		String sql = """
-					select  EMPLOYEE_ID,
-							 FIRST_NAME,
-							 LAST_NAME,
-							 EMAIL,
-							 PHONE_NUMBER,
-							 HIRE_DATE,
-							 JOB_ID,
-							 SALARY,
-							 COMMISSION_PCT,
-							 MANAGER_ID,
-							 DEPARTMENT_ID
-					from employees 
-					order by 1	desc 
-					""";
+				select  EMPLOYEE_ID,
+						 FIRST_NAME,
+						 LAST_NAME,
+						 EMAIL,
+						 PHONE_NUMBER,
+						 HIRE_DATE,
+						 JOB_ID,
+						 SALARY,
+						 COMMISSION_PCT,
+						 MANAGER_ID,
+						 DEPARTMENT_ID
+				from employees
+				order by 1	desc
+				""";
 		List<EmpVO> emplist = new ArrayList<>();
 		conn = OracleUtil.getConnection();
 		try {
 			st = conn.createStatement();
-			if(st.execute(sql)) {
-				rs=st.getResultSet();
+			if (st.execute(sql)) {
+				rs = st.getResultSet();
 			}
-			//rs = st.executeQuery(sql);
-			
+			// rs = st.executeQuery(sql);
+
 			ResultSetMetaData meta = rs.getMetaData();
 			int count = meta.getColumnCount();
-			for(int i=1; i<=count; i++) {
+			for (int i = 1; i <= count; i++) {
 				System.out.println("칼럼이름:" + meta.getColumnName(i));
 			}
-			
-			
+
 			while (rs.next()) {
 				EmpVO emp = makeEmp(rs);
 				emplist.add(emp);
@@ -254,9 +242,15 @@ public class EmpDAO {
 		return emplist;
 	}
 
+	 
+	
+	
 	// 특정부서, jobid, salary이상 직원조회
 	public List<EmpVO> selectByCondition(int deptid, String jobid, double salary) {
-		String sql = "select * " + " from employees " + " where department_id = ? " + " and job_id = ? "
+		String sql = "select * " 
+				+ " from employees " 
+				+ " where department_id = ? " 
+				+ " and job_id = ? "
 				+ " and salary >= ? ";
 		List<EmpVO> emplist = new ArrayList<>();
 		conn = OracleUtil.getConnection();
@@ -299,7 +293,7 @@ public class EmpDAO {
 			pst.setInt(9, emp.getManager_id());
 			pst.setInt(10, emp.getDepartment_id());
 
-			resultCount = pst.executeUpdate();// DML문장실행한다. 
+			resultCount = pst.executeUpdate();// DML문장실행한다.
 
 		} catch (SQLException e) {
 			resultCount = -1;
@@ -346,7 +340,7 @@ public class EmpDAO {
 		return resultCount;
 	}
 
-	// 한건의 직원를 삭제하기 
+	// 한건의 직원를 삭제하기
 	public int empDelete(int empid) {
 		String sql = """
 				delete from employees

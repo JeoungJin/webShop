@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.shinhan.model.CompanyService;
 import com.shinhan.model.EmpService;
 import com.shinhan.vo.EmpVO;
 
@@ -17,6 +18,7 @@ public class EmpListController implements CommonControllerInterface{
 		//request가 유지되는 동안 저장한다. 
 		HttpServletRequest request = (HttpServletRequest)data.get("request");
 		request.setAttribute("empAll", emplist);
+		request.setAttribute("deptList", new CompanyService().deptSelectAll());
 		
 		//위임(내가 요청을 받고 응답은 다른 페이지가 한다.)
 		return "empSelect.jsp";

@@ -26,6 +26,8 @@ public class BindingTestServlet1 extends HttpServlet {
 		ServletContext application =  request.getServletContext();
 		HttpSession browser = request.getSession();
 		
+		 
+		
 		application.setAttribute("mydata1", "application에 저장함");
 		browser.setAttribute("mydata2", "session에 저장함");
 		request.setAttribute("mydata3", "request에 저장함");

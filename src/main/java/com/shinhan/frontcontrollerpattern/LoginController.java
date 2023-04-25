@@ -26,7 +26,12 @@ public class LoginController implements CommonControllerInterface{
 			String pass = request.getParameter("pass");
 			AdminService service = new AdminService();
 			AdminVO admin = service.loginCheck(email, pass);
-			//System.out.println(admin==null?"로그인실패":admin);
+			//로그인성공
+			HttpSession session = request.getSession();
+			System.out.println(session.isNew());
+			session.setAttribute("loginUser", admin==null?"로그인실패":admin);
+			session.setMaxInactiveInterval(60*60*24);
+			
 			ServletContext app = request.getServletContext();
 			Object obj = app.getAttribute("userList");
 			List<AdminVO> userList = null;
@@ -43,11 +48,8 @@ public class LoginController implements CommonControllerInterface{
 					System.out.println(vo);
 			     }
 				System.out.println("-----------------------");
-				//로그인성공
-				HttpSession session = request.getSession();
-				System.out.println(session.isNew());
-				session.setAttribute("loginUser", admin);
-				session.setMaxInactiveInterval(60*60*24);
+				
+				
 				String path = request.getContextPath();
 				//page= "redirect:" + path + "/emp/emplist.do";
 				page= "redirect:" + "../emp/emplist.do";
