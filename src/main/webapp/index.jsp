@@ -6,8 +6,10 @@
 <meta charset="UTF-8">
 <!-- <meta http-equiv="refresh" content="3;auth/login.jsp"> -->
 <title>Insert title here</title>
+
 </head>
 <body>
+<%@ include file="common/commonfiles.jsp" %>
 <h1>JSP/Servlet Project@@@@@@@@@@@</h1>
 <!--  application, session, request영역 연습 -->
 <p>application : ${mydata1 } </p>

@@ -16,9 +16,9 @@ import javax.servlet.http.HttpSession;
 import com.shinhan.vo.AdminVO;
 
 /**
- * Servlet Filter implementation class LoginCheckFilter
+ * web.xml의 필터 맵핑 태그를 순서대로 읽어 필터체인의 순서를 판단
  */
-@WebFilter("*.do") //css, js, jsp, servlet, image
+@WebFilter(urlPatterns = {"*.do"}) //css, js, jsp, servlet, image
 public class LoginCheckFilter extends HttpFilter implements Filter {
        
     /**

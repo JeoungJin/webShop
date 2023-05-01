@@ -43,6 +43,7 @@ public class FontController extends HttpServlet {
 		System.out.println(request.getServletPath() + " :ServletPath");
 
 		switch (path) {
+	 
 		case "/site-result/layout.do":
 			controller = new LayoutTestController();
 			break;
@@ -77,7 +78,10 @@ public class FontController extends HttpServlet {
 			controller = new EmpDeleteController();break;
 		
 		default:
-			break;
+			request.setAttribute("errorMessage", "404에러가 발생했습니다!!!");
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		 
 		}
 		String page = null;
 		 
@@ -89,6 +93,7 @@ public class FontController extends HttpServlet {
  
 		if (page.indexOf("redirect:") >= 0) {
 			response.sendRedirect(page.substring(9));
+			return;
 		}else if(page.indexOf("responseBody:")>=0) {
 			response.setCharacterEncoding("utf-8");
 			response.getWriter().append( page.substring(13));
@@ -100,7 +105,7 @@ public class FontController extends HttpServlet {
 			rd.forward(request, response);
 
 		}
- 
+       //
 	}
 
 }

@@ -26,7 +26,7 @@ public class MySQLUtil {
 			try {
 				initContext = new InitialContext();
 				Context envContext  = (Context)initContext.lookup("java:/comp/env");
-				DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB");
+				DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB2");
 				conn = ds.getConnection();
 			} catch (NamingException e) {
 				// TODO Auto-generated catch block

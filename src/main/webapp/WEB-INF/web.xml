@@ -30,7 +30,7 @@
 
 
 	<!-- filter등록 -->
-	<filter>
+	<!-- <filter>
 		<filter-name>timecheck</filter-name>
 		<filter-class>com.shinhan.filter.TimeCheckFilter</filter-class>
 
@@ -39,7 +39,7 @@
 		<filter-name>timecheck</filter-name>
 		<url-pattern>/*</url-pattern>
 
-	</filter-mapping>
+	</filter-mapping> -->
 
 	<!-- 서블릿등록 @WebServlet과 같음 -->
 	<servlet>

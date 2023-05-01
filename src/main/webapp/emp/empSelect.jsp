@@ -211,13 +211,14 @@
  	<script>
  	   $(function(){
  			$('#exampleModal').on('show.bs.modal', function(event) {  
+ 				/*
  		 		var myname = $(event.relatedTarget).data('myname');
  		 		var emp1 = $(event.relatedTarget).data('emp1');
  		 		emp1 = emp1.replace(/\'/gi, '"');
  		 		console.log(emp1)
  		 		var obj = JSON.parse("{" + emp1 + "}");
  		        $("#my").val(obj["first_name"]);
- 		        console.log(obj["last_name"])
+ 		        console.log(obj["last_name"])*/
  		    });
  	   });
 	 	
@@ -235,7 +236,24 @@
 		<select id="jobs"></select>
 	</fieldset>
 	<hr>
-	
+	<script>
+	   function call(emp){
+		   console.log(emp)
+	   }
+	   $(function(){
+		   $("td").on("click", function(){
+			   console.log($(this).children("span").length);
+			   var a = $(this).children("span").length;
+			   if(a==0){
+				   $("#my").val("Aaaaaaaaaaa");
+				   console.log($(this).parent().attr("data-emp1"));
+				   $("#exampleModal").modal("show");
+			   }
+			   
+		   });
+	   });
+	   
+	</script>
 	<table class="table table-hover" id="myTable">
 	  <thead>
 	   <tr>
@@ -249,18 +267,26 @@
 	     <th>부서</th>	     <th>delete</th>
 	   </tr>
 	 </thead>
-	 <tbody> 
+	 <tbody>
+	    
 	   <c:set var="totalSalary" value="0" />
 	   <c:forEach items="${empAll}" var="emp" varStatus="status">
 	   <c:set var="totalSalary" value="${totalSalary+emp.salary}"/>
+	    
 	   
-	   <tr>
+	   
+	   <tr  
+ 	           data-emp1="${empAll[status.index]}"
+ 	           data-target="#exampleModal"
+ 	           >
+ 	           <td><button onclick="call({${empAll[status.index]}})">call</button><td>
 	     <td>
-	     <button type="button" class="btn btn-success" 
+	       <span >모달NO</span>
+	     <%-- <button type="button" class="btn btn-success" 
  	           data-emp1="${empAll[status.index]}"
  	           data-bs-toggle="modal" 
  	           data-bs-target="#exampleModal" 
- 	           >modal(param)</button>
+ 	           >modal(param)</button> --%>
 	     </td>
 	     <td style="background-color:${status.first||status.last?'orange':'white'};">${status.count }</td>
 	     <td><a href="${path}/emp/empDetail.do?empid=${emp.employee_id}">${emp.employee_id}</a></td>
